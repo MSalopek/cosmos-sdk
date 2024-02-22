@@ -166,6 +166,8 @@ func (fss *StreamingService) doListenCommit(ctx context.Context, res abci.Respon
 		if err := writeLengthPrefixedFile(path.Join(fss.writeDir, metaFileName), bz, fss.fsync); err != nil {
 			return err
 		}
+		// NOTE: reset the block metadata to avoid huge metadata file sizes
+		fss.blockMetadata = types.BlockMetadata{}
 	}
 
 	var buf bytes.Buffer
